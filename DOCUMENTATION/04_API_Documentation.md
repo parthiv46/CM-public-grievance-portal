@@ -9,7 +9,7 @@ All endpoints are same-origin. JSON request bodies use `Content-Type: applicatio
 | GET | `/api/stats` | CMO admin | Retrieve total, pending, in-progress, resolved, overdue, district, department and status statistics |
 | POST | `/api/register` | Public | Register citizen; returns user and token |
 | POST | `/api/login` | Public | Sign in; returns user and token |
-| POST | `/api/logout` | Signed in | Revoke in-memory session |
+| POST | `/api/logout` | Signed in | Sign out in the browser; bearer token expires after eight hours |
 | GET | `/api/me` | Signed in | Current user and department |
 | POST | `/api/analyze` | Citizen | Analyze a grievance description |
 | GET | `/api/track/:reference` | Public | Public status and history lookup |
@@ -38,7 +38,7 @@ All endpoints are same-origin. JSON request bodies use `Content-Type: applicatio
 }
 ```
 
-The API returns the new record, including a generated `reference`, `status: "Submitted"`, and a first history entry. File attachment bodies use `{ "name", "type", "data" }`, where `data` is a `data:` URL containing base64 bytes. Files are limited to 4 MB.
+The API returns the new record, including a generated `reference`, `status: "Submitted"`, and a first history entry. File attachment bodies use `{ "name", "type", "data" }`, where `data` is a `data:` URL containing base64 bytes. Files are limited to 3 MB.
 
 ## Grievance statuses
 

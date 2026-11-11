@@ -2,17 +2,21 @@
 
 ## Requirements
 
-- Node.js 18 or newer.
+- Node.js 22.
 - A MongoDB Atlas or self-hosted MongoDB connection URI.
 - npm. The project uses the official MongoDB Node.js driver.
 
 ## Setup
 
 1. Create a MongoDB database and database user. Copy the connection URI from MongoDB Atlas or your MongoDB provider.
-2. Add `MONGODB_URI` and `MONGODB_DB=cm_kerala_portal` to `.env`. Preserve any existing Gemini key in that file. Keep `.env` private; it is ignored by Git.
+2. Add `MONGODB_URI`, `MONGODB_DB=cm_kerala_portal` and a random `SESSION_SECRET` to `.env`. Preserve any existing Gemini key in that file. Keep `.env` private; it is ignored by Git.
 3. In Windows PowerShell, run `npm.cmd install` and `npm.cmd start`. In shells where npm scripts are enabled, run `npm install` and `npm start`.
 4. Visit `http://localhost:3000` and sign in with one of the demo accounts listed in the root README.
 5. On an empty database, startup creates the MongoDB collections, indexes and fictional sample records.
+
+## Vercel deployment
+
+Import the GitHub repository in Vercel. Select **Other** as the Framework Preset and leave the Build Command empty. The checked-in `vercel.json` publishes the `public/` directory and maps the `/api/*` routes to a Node.js Function. Set `MONGODB_URI`, `MONGODB_DB`, and a strong `SESSION_SECRET` in Vercel's Environment Variables for Preview and Production. Add `GEMINI_API_KEY` for live Gemini assistance. Redeploy after saving variables, then check `/api/health` and walk through sign-in and grievance flows. The Vercel deployment is intended for a low-traffic assessment demonstration; the current in-memory data cache is not safe for concurrent serverless instances.
 
 ## Manual verification cases
 

@@ -19,7 +19,7 @@ flowchart LR
 - Passwords are scrypt hashes; API secrets are read from server environment variables.
 - A citizen sees their own records. An officer sees records assigned to their department. The CMO administrator sees all grievances.
 - Attachment downloads pass the same record-access checks as grievance detail. File bytes are stored in their own MongoDB collection.
-- User text is escaped before insertion into the HTML interface; attachments have a MIME allowlist and a 4 MB size limit.
-- Bearer sessions are in-memory demo sessions and are lost on server restart. Add durable sessions, CSRF protections appropriate to the chosen auth mechanism, rate limiting, logging and deployment hardening before production use.
+- User text is escaped before insertion into the HTML interface; attachments have a MIME allowlist and a 3 MB size limit.
+- Bearer tokens are signed with `SESSION_SECRET` and expire after eight hours. Signing out removes the token from the browser; a copied token remains valid until expiry. Add durable sessions, CSRF protections appropriate to the chosen auth mechanism, rate limiting, logging and deployment hardening before production use.
 
-The prototype currently runs as one Node service instance with in-memory bearer sessions. See [Database Design](03_Database_Design.md), [API Documentation](04_API_Documentation.md) and [AI Integration](05_AI_Integration.md).
+The prototype currently runs as one Node service instance with signed eight-hour bearer tokens. See [Database Design](03_Database_Design.md), [API Documentation](04_API_Documentation.md) and [AI Integration](05_AI_Integration.md).

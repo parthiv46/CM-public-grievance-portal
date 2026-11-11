@@ -1,0 +1,5 @@
+'use strict';
+
+const { vercelHandler } = require('../server');
+
+module.exports = vercelHandler;
