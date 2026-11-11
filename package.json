@@ -4,5 +4,6 @@
   "private": true,
   "description": "A civic grievance portal recruitment prototype",
   "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=18" }
+  "engines": { "node": ">=18" },
+  "dependencies": { "mongodb": "^7.8.0" }
 }

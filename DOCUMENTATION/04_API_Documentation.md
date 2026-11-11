@@ -6,11 +6,12 @@ All endpoints are same-origin. JSON request bodies use `Content-Type: applicatio
 |---|---|---|---|
 | GET | `/api/health` | Public | Health check |
 | GET | `/api/departments` | Public | List departments |
+| GET | `/api/stats` | CMO admin | Retrieve total, pending, in-progress, resolved, overdue, district, department and status statistics |
 | POST | `/api/register` | Public | Register citizen; returns user and token |
 | POST | `/api/login` | Public | Sign in; returns user and token |
 | POST | `/api/logout` | Signed in | Revoke in-memory session |
 | GET | `/api/me` | Signed in | Current user and department |
-| POST | `/api/analyze` | Public | Analyze a grievance description |
+| POST | `/api/analyze` | Citizen | Analyze a grievance description |
 | GET | `/api/track/:reference` | Public | Public status and history lookup |
 | GET | `/api/grievances` | Signed in | Role-filtered grievance list |
 | POST | `/api/grievances` | Citizen | Submit grievance and optional attachment |

@@ -1,6 +1,6 @@
 # Database design
 
-The demo uses a JSON document store so it runs without database installation. The equivalent relational entities and relationships are shown below. Seed accounts and sample grievances are fictional.
+The application uses MongoDB collections through the official Node.js driver. Seed accounts and sample grievances are fictional. The diagram describes the collection relationships; each collection stores documents with a stable string `id`.
 
 ```mermaid
 erDiagram
@@ -19,11 +19,11 @@ erDiagram
   GRIEVANCE_HISTORY { string status string note string actorId string actorName string actorRole datetime createdAt }
   ASSIGNMENTS { string id PK string grievanceId FK string departmentId FK string assignedBy datetime assignedAt string note }
   ESCALATIONS { string id PK string grievanceId FK string escalatedBy datetime createdAt string note }
-  ATTACHMENTS { string name string type string file }
+  ATTACHMENTS { string id PK string grievanceId FK string name string type string dataBase64 }
   CITIZEN_FEEDBACK { string message string citizenName datetime createdAt }
   CONTACT_ENQUIRIES { string id PK string name string email string subject string message datetime createdAt }
 ```
 
-Each grievance embeds its history, optional attachment metadata, action-taken report, CMO response and citizen feedback. `data/store.json` contains top-level arrays for users, departments, grievances and enquiries. Upload bytes are separate files in `data/uploads/`; file names are random server-generated identifiers. The application stores timestamps as ISO 8601 strings.
+Grievance documents retain a snapshot of status history for convenient reads; the canonical events are also stored in `grievanceHistory`. A grievance stores attachment metadata and references a separate `attachments` document containing the base64 file bytes (maximum 4 MB upload, within MongoDB's BSON document limit). Status timestamps use ISO 8601 strings. Unique indexes protect account emails and grievance references; additional indexes support ownership, department and history lookups.
 
-For a multi-instance or production deployment, move records and file metadata to a managed database and object store, add indexes for references/ownership/status, and define retention and backup policies.
+The demo currently keeps a single in-memory view of records and flushes changes to MongoDB. Run one app instance to avoid stale in-memory data. A production version should use per-request database operations, durable sessions, GridFS or object storage for larger uploads, and backup/retention policies.

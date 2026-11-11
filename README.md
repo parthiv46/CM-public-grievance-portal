@@ -6,13 +6,14 @@ A full-stack recruitment assessment prototype for a citizen grievance portal. It
 
 ## Run locally
 
-Requires Node.js 18 or newer. The app uses only Node.js built-in modules and has no package dependencies.
+Requires Node.js 18 or newer and a MongoDB database (MongoDB Atlas is suitable). The application uses the official MongoDB Node.js driver.
 
 ```bash
-npm start
+npm.cmd install
+npm.cmd start
 ```
 
-Open [http://localhost:3000](http://localhost:3000). On first start, the server creates `data/store.json` with fictional accounts and sample grievances. All new records and uploaded files are stored locally in `data/`.
+Before starting, add `MONGODB_URI` and `MONGODB_DB=cm_kerala_portal` to `.env`. To preserve the Gemini key already in your `.env`, add the MongoDB settings to that file instead of replacing it with `.env.example`. The first connection creates the application collections and seeds fictional demo accounts and sample grievances when the database is empty. Open [http://localhost:3000](http://localhost:3000).
 
 ### Demo accounts
 
@@ -34,11 +35,15 @@ The assistant sends a bounded grievance description to the Gemini Interactions A
 
 - **Frontend:** semantic HTML, responsive CSS and vanilla JavaScript, served by the Node server.
 - **Backend:** Node.js HTTP server with JSON REST endpoints, role checks and password hashing.
-- **Persistence:** local JSON store (`data/store.json`) and local attachment files (`data/uploads/`). The JSON store keeps users, departments, grievances, status history, assignments, attachments, feedback and contact enquiries.
+- **Persistence:** MongoDB collections for users, departments, grievances, status history, assignments, escalations, attachment metadata and bytes, feedback and contact enquiries. Indexes cover account email, grievance references, ownership and history.
 - **Authentication:** bearer tokens held in process memory. Users sign in again after a server restart. This is suitable for a local demo, not production deployment.
 - **AI:** optional server-side model API with explicit fallback labeling and human review.
 
 Diagrams and deeper specifications are in [`DOCUMENTATION/`](DOCUMENTATION/).
+
+## Deployment
+
+The repository includes [`render.yaml`](render.yaml) for a Render Blueprint. In Render, create a Blueprint from this GitHub repository and provide `MONGODB_URI` and `GEMINI_API_KEY` when prompted. Add the Render service's outbound access to your MongoDB provider's allowlist if required. After deployment, confirm `<your-service-url>/api/health` returns `{"status":"ok"}`. Use the hosted URL as the application link and make a 3–5 minute screen recording of the citizen, CMO and officer workflows for the assessment submission. The Blueprint setup is described in [Render's official documentation](https://render.com/docs/blueprint-spec).
 
 ## Main workflow
 
@@ -52,4 +57,4 @@ Unauthenticated tracking by reference is available from the public site. Private
 
 ## Data reset
 
-Stop the server, remove `data/store.json` and any files inside `data/uploads/`, then start the server again. The demo seed data will be recreated. Keep `.env` and real secrets out of version control.
+To reset the demo, remove the application collections from the configured MongoDB database; the server seeds fictional demo data again when the collections are empty. Keep `.env` and real secrets out of version control.

@@ -15,4 +15,4 @@ Citizens need a clear route to submit concerns about public services, while the 
 
 ## Scope and limits
 
-This is a runnable local recruitment prototype, not a government service. It uses fictional data, a file-backed JSON database and in-memory bearer sessions. It does not send notifications, connect to government systems, or provide production-grade identity verification, durable session management, backups or operational monitoring. The local classifier used when no model key is configured is a labeled fallback, not completed AI integration.
+This is a runnable recruitment prototype, not a government service. It uses fictional seed data, MongoDB persistence and in-memory bearer sessions. It does not send notifications, connect to government systems, or provide production-grade identity verification, durable session management, backups or operational monitoring. The app keeps a single in-memory view of records, so deploy one server instance. When `GEMINI_API_KEY` is configured, grievance triage uses Gemini; otherwise, a clearly labeled local classifier provides fallback suggestions. Suggestions require human review.
